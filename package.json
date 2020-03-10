@@ -1,0 +1,18 @@
+{
+  "name": "pa",
+  "version": "1.2.0",
+  "description": "IONDV module: Personal account",
+  "homepage": "https://github.com/iondv/pa",
+  "bugs": {
+    "url": "https://github.com/iondv/pa/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iondv/pa.git"
+  },
+  "engines": {
+    "ion": "4.0.0"
+  },
+  "license": "Apache License 2.0",
+  "dependencies": {}
+}

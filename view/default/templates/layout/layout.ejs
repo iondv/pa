@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ION Platform</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0"/>
+  <base id="baseUrl" href="<%=baseUrl%>">
+  <link href="/<%= module %>/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+  <link href="/<%=module%>/css/base<%=staticsSuffix%>.css" rel="stylesheet" type="text/css">
+  <%- stylesheets %>
+  <link href="/<%= module %>/css/common<%= staticsSuffix %>.css" rel="stylesheet"/>
+  <script src="/<%= module %>/vendor/jquery/jquery.min.js"></script>
+  <script src="/<%= module %>/vendor/js-cookie/src/js.cookie.js"></script>
+  <script src="/<%= module %>/vendor/store-js/store.min.js"></script>
+  <script src="/<%= module %>/js/preload.js"></script>
+</head>
+
+<body>
+
+<div id="wrapper" class="clearfix">
+  <% include ./sidebar %>
+  <% include ./header %>
+
+  <section id="middle">
+    <% if (typeof title !== 'undefined') { %>
+      <header id="page-header">
+        <h1><%= title %></h1>
+      </header>
+    <% } %>
+    <%- body %>
+  </section>
+
+  <% include ./footer %>
+</div>
+
+<script>
+  window.sidebarSplitter && sidebarSplitter.init();
+
+  <%
+  if (typeof user === 'object' && user && user.properties) {
+    for (var pn in user.properties) {
+  if (user.properties.hasOwnProperty(pn)) {
+  %>
+  $<%-pn%> = <%-JSON.stringify(user.properties[pn])%>;
+  <%
+  }
+  }
+  }
+  %>
+</script>
+
+<script src="/<%=module%>/vendor/jquery-ui/jquery-ui.min.js"></script>
+<script>
+  $.widget.bridge('uibutton', $.ui.button);
+</script>
+<script src="/<%=module%>/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script>
+  var plugin_path = '/<%=module%>/js/plugins/';
+  <% if (typeof locale == 'object') {%>
+  $.fn.dataTable.moment("<%=locale.dateFormat%>");
+  $.fn.dataTable.moment("<%=locale.dateTimeFormat%>");
+  <% } %>
+</script>
+<script src="/<%=module%>/vendor/moment/moment.min.js"></script>
+<script src="/<%=module%>/js/common<%=staticsSuffix%>.js"></script>
+<%- scripts %>
+<%- pageEndContent %>
+</body>
+</html>

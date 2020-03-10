@@ -1,0 +1,87 @@
+<% layout('./layout/layout') -%>
+
+  <header id="page-header">
+    <h1>Профиль пользователя <%=user.name()%></h1>
+    <ol class="breadcrumb">
+      <li><a href="/<%=module%>"><i class="fa fa-dashboard"></i> Главная</a></li>
+      <%- blocks.breadcrumbs %>
+    </ol>
+  </header>
+  <div class="padding-15">
+  <div class="login-box">
+    <% if(errors.length) { %>
+    <div id="error" class="alert alert-danger">
+      <% errors.forEach(function(error){ %>
+      <p><%= error %></p>
+      <% }); %>
+    </div>
+    <% } %>
+    <!-- login form -->
+    <form action="/<%=module%>/profile" method="post" class="sky-form boxed">
+      <fieldset>
+        <% Object.keys(fields).forEach(function(fieldName){ %>
+        <section>
+          <label class="label">
+            <%= fields[fieldName].caption ? fields[fieldName].caption : fieldName %>
+            <%= fields[fieldName].required ? '*' : '' %>
+          </label>
+          <label class="input">
+            <%
+              let val = user.properties()[fieldName];
+            if (Array.isArray(fields[fieldName])) {
+            %>
+            <select name="<%= fieldName %>">
+              <% for (let option of fields[fieldName]){ %>
+              <option value="<%= option.value %>" <%=option.value === val ? 'selected="true"' : ''%>><%= option.key %></option>
+              <% } %>
+            </select>
+            <% } else if (fields[fieldName]) { %>
+            <input type="text" name="<%= fieldName %>" class="input"
+                   <% if (fields[fieldName].required) { %>required<% } %> value="<%=val%>"/>
+            <% } %>
+          </label>
+        </section>
+        <% }) %>
+      </fieldset>
+
+      <footer>
+        <button id="authbutton" type="submit" class="btn btn-primary pull-right">Сохранить</button>
+      </footer>
+    </form>
+  </div>
+</div>
+  <script>
+    jQuery(function(){
+      var options = <%- JSON.stringify(options || {})%>;
+      var fields = <%- JSON.stringify(fields || {})%>;
+      var $msgContainer = $('div#error');
+      var $submit = $('button#authbutton');
+      var $regForm = $('form#reg-form');
+      $submit.click(function(){
+        $msgContainer.empty();
+        var valid = true;
+        var messages = [];
+        var field;
+        for (fieldName in fields) {
+          if (fields.hasOwnProperty(fieldName)) {
+            if (fields[fieldName] && fields[fieldName].required) {
+              field = $regForm.find('[name='+fieldName+']');
+              if (!field.val()) {
+                valid = false;
+                messages.push('Поле ' + (fields[fieldName].caption ? fields[fieldName].caption : fieldName )
+                  + ' обязательно для заполнения');
+              }
+            }
+          }
+        }
+        if (valid) {
+          $regForm.submit();
+          $msgContainer.empty();
+        } else if (messages.length) {
+          for (var i = 0; i < messages.length; i++) {
+            $('<p/>').html(messages[i]).appendTo($msgContainer);
+          }
+        }
+      });
+    });
+  </script>

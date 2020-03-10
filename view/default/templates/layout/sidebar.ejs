@@ -1,0 +1,13 @@
+<aside id="aside">
+  <nav id="sideBarNav">
+    <ul class="nav nav-list">
+      <% for (let pth in toolbar) { %>
+        <%- partial("./menu_node.ejs",{path: pth, menuNode: toolbar[pth]}) %>
+      <% } %>
+    </ul>
+  </nav>
+  <button id="moreMenuBtn">
+    <span class="glyphicon"></span><span class="glyphicon"></span>
+  </button>
+  <div id="aside-splitter" class="aside-splitter"></div>
+</aside>

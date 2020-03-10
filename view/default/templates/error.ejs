@@ -1,0 +1,8 @@
+<% layout('./layout/layout') %>
+
+<div class="error-page">
+  <div class="error-content">
+    <% if (error.name) { %><h3><i class="fa fa-warning text-yellow"></i><%= error.name %></h3><% } %>
+    <p><%= error.message || error%></p>
+  </div>
+</div>

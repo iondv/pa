@@ -1,0 +1,28 @@
+<% if (menuNode) { %>
+<% if (typeof menuNode === 'string' || typeof menuNode === 'object' && !menuNode.tools) { %>
+<li>
+  <a class="menu-link" href="/<%=module%>/<%=path%>" title="<%= menuNode.hint || menuNode.caption || menuNode %>">
+    <i class="fa fa-menu-arrow pull-right toggler"></i>
+    <i class="main-icon fa fa-institution"></i>
+    <span><%= menuNode.caption || menuNode %></span>
+  </a>
+</li>
+<%
+} else if (menuNode.tools) { %>
+  <li class="treeview menu-open always-open">
+      <a href="#" title="<%= menuNode.hint || menuNode.caption %>" class="treeview-link">
+        <i class="fa fa-menu-arrow pull-right toggler"></i>
+        <i class="main-icon fa fa-institution" title="<%= menuNode.hint || menuNode.caption %>"></i>
+        <span><%= menuNode.caption %></span>
+      </a>
+      <ul class="treeview-menu">
+       <% for (let pth in menuNode.tools) { %>
+        <%- partial("./menu_node.ejs",{path: pth, menuNode:menuNode.tools[pth]}) %>
+        <% } %>
+      </ul>
+  </li>
+<%
+}
+}
+%>
+

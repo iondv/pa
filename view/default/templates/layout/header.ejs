@@ -1,0 +1,55 @@
+<header id="header">
+
+  <ul class="nav pull-left">
+    <li class="dropdown module-switcher">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true"></a>
+      <ul class="dropdown-menu hold-on-click">
+        <% sysMenu.forEach(function (m) { %>
+        <li>
+          <a <% if (m.external) { %>target="_blank"<% }%>
+               href="<% if (!m.external) { %>/<% }%><%=m.name%>"
+               title="<%=m.description%>">
+            <%=m.description%>
+          </a>
+        </li>
+        <% }); %>
+      </ul>
+    </li>
+  </ul>
+
+	<span class="logo pull-left">
+	  <a href="/<%=module%>"><img src="/<%=module%>/<%- typeof logo === 'string' ? logo : 'img/logo_light.png'%>" alt="admin panel" height="40"/></a>
+	</span>
+  <!--
+  <form method="get" action="page-search.html" class="search pull-left hidden-xs">
+    <input type="text" class="form-control" name="k" placeholder="Искать..."/>
+  </form>
+  -->
+  <nav>
+    <ul class="nav pull-right">
+      <!-- USER OPTIONS -->
+      <% if (typeof user !== 'undefined' && user && user.id() !== 'anonymous') { %>
+      <li class="dropdown pull-left">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+          <img class="user-avatar" alt="" src="/<%= module %>/img/noavatar.jpg" height="34"/>
+				    <span class="user-name">
+              <span class="hidden-xs"><%= user.name() %> <i class="fa fa-angle-down"></i></span>
+            </span>
+        </a>
+        <ul class="dropdown-menu hold-on-click">
+          <li>
+            <a href="/<%= module %>/profile"><i class="fa fa-user"></i> Профиль пользователя</a>
+          </li>
+          <li>
+            <a href="/<%= module %>/chpwd"><i class="fa fa-lock"></i> Сменить пароль</a>
+          </li>
+          <li>
+            <a href="/<%= module %>/sign-out"><i class="fa fa-power-off"></i> Выйти</a>
+          </li>
+        </ul>
+      </li>
+      <% } %>
+    </ul>
+  </nav>
+
+</header>
