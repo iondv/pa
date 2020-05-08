@@ -59,9 +59,15 @@ app._init = function () {
         app.use('/' + moduleName, statics);
       }
       app.locals.toolbar = scope.settings.get(moduleName + '.toolbar') || {};
-      scope.auth.bindAuth(app, moduleName, {profile: 'profile', chpwd: 'chpwd'});
+
+      if (scope.settings.get(moduleName + '.noAuth')) {
+        scope.auth.exclude(`\\/${moduleName}\\/\\w.*`);
+      } else {
+        scope.auth.bindAuth(app, moduleName, {profile: 'profile', chpwd: 'chpwd'});
+      }
+
       app.use('/' + moduleName, router);
-            app.locals.pageTitle = scope.settings.get(moduleName + '.pageTitle')
+      app.locals.pageTitle = scope.settings.get(moduleName + '.pageTitle')
         || scope.settings.get('pageTitle')
         || `ION ${config.sysTitle}`;
       app.locals.pageEndContent = scope.settings.get(moduleName +'.pageEndContent') || scope.settings.get('pageEndContent') || '';
