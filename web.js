@@ -28,6 +28,8 @@ router.get('/', function (req, res) {
   }
 });
 
+app.disable('etag');
+
 app.locals.sysTitle = config.sysTitle;
 app.locals.staticsSuffix = process.env.ION_ENV === 'production' ? '.min' : '';
 app.locals.module = moduleName;
@@ -61,6 +63,7 @@ app._init = function () {
       app.locals.toolbar = scope.settings.get(moduleName + '.toolbar') || {};
 
       if (scope.settings.get(moduleName + '.noAuth')) {
+        scope.auth.exclude(`^\\/${moduleName}\\/*$`);
         scope.auth.exclude(`\\/${moduleName}\\/\\w.*`);
       } else {
         scope.auth.bindAuth(app, moduleName, {profile: 'profile', chpwd: 'chpwd'});
