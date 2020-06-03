@@ -2,9 +2,11 @@
  * Created by kalias_90 on 03.08.17.
  */
 
+const path = require('path');
 const express = require('express');
 const di = require('core/di');
 const config = require('./config');
+const rootConfig = require('../../config');
 const moduleName = require('./module-name');
 const ejsLocals = require('ejs-locals');
 const extendDi = require('core/extendModuleDi');
@@ -12,9 +14,17 @@ const theme = require('lib/util/theme');
 const staticRouter = require('lib/util/staticRouter');
 const extViews = require('lib/util/extViews');
 const alias = require('core/scope-alias');
+const errorSetup = require('core/error-setup');
+const i18nSetup = require('core/i18n-setup');
+const strings = require('core/strings');
 
-let app = module.exports = express();
-let router = express.Router();
+const lang = config.lang || rootConfig.lang || 'ru';
+const i18nDir = path.join(__dirname, 'i18n');
+errorSetup(lang, i18nDir);
+i18nSetup(lang, config.i18n || i18nDir, moduleName);
+
+const app = module.exports = express();
+const router = express.Router();
 
 router.get('/', function (req, res) {
   let scope = di.context(moduleName);
@@ -31,6 +41,8 @@ router.get('/', function (req, res) {
 app.locals.sysTitle = config.sysTitle;
 app.locals.staticsSuffix = process.env.ION_ENV === 'production' ? '.min' : '';
 app.locals.module = moduleName;
+app.locals.s = strings.s;
+app.locals.__ = (str, params) => strings.s(moduleName, str, params);
 
 app.engine('ejs', ejsLocals);
 app.set('view engine', 'ejs');
@@ -45,12 +57,15 @@ app._init = function () {
     'modules/' + moduleName)
     .then((scope) => alias(scope, scope.settings.get(moduleName + '.di-alias')))
     .then((scope) => {
+      let themePath = scope.settings.get(moduleName + '.theme') || config.theme || 'default';
+      themePath = theme.resolve(__dirname, themePath);
+      const themeI18n = path.join(themePath, 'i18n');
+      i18nSetup(lang, themeI18n, moduleName, scope.sysLog);
       theme(
         app,
         moduleName,
         __dirname,
-        scope.settings.get(moduleName + '.theme') ||
-        config.theme || 'default',
+        themePath,
         scope.sysLog
       );
       extViews(app, scope.settings.get(moduleName + '.templates'));
