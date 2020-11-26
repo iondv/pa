@@ -22,7 +22,7 @@
 	</span>
   <!--
   <form method="get" action="page-search.html" class="search pull-left hidden-xs">
-    <input type="text" class="form-control" name="k" placeholder="Искать..."/>
+    <input type="text" class="form-control" name="k" placeholder="<%=__('Искать...')%>"/>
   </form>
   -->
   <nav>
@@ -38,13 +38,13 @@
         </a>
         <ul class="dropdown-menu hold-on-click">
           <li>
-            <a href="/<%= module %>/profile"><i class="fa fa-user"></i> Профиль пользователя</a>
+            <a href="/<%= module %>/profile"><i class="fa fa-user"></i> <%=__('Профиль пользователя')%></a>
           </li>
           <li>
-            <a href="/<%= module %>/chpwd"><i class="fa fa-lock"></i> Сменить пароль</a>
+            <a href="/<%= module %>/chpwd"><i class="fa fa-lock"></i> <%=__('Сменить пароль')%></a>
           </li>
           <li>
-            <a href="/<%= module %>/sign-out"><i class="fa fa-power-off"></i> Выйти</a>
+            <a href="/<%= module %>/sign-out"><i class="fa fa-power-off"></i> <%=__('Выйти')%></a>
           </li>
         </ul>
       </li>

@@ -1,9 +1,9 @@
 <% layout('./layout/layout') -%>
 
   <header id="page-header">
-    <h1>Профиль пользователя <%=user.name()%></h1>
+    <h1><%=__('Профиль пользователя')%> <%=user.name()%></h1>
     <ol class="breadcrumb">
-      <li><a href="/<%=module%>"><i class="fa fa-dashboard"></i> Главная</a></li>
+      <li><a href="/<%=module%>"><i class="fa fa-dashboard"></i> <%=__('Главная')%></a></li>
       <%- blocks.breadcrumbs %>
     </ol>
   </header>
@@ -45,7 +45,7 @@
       </fieldset>
 
       <footer>
-        <button id="authbutton" type="submit" class="btn btn-primary pull-right">Сохранить</button>
+        <button id="authbutton" type="submit" class="btn btn-primary pull-right"><%=__('Сохранить')%></button>
       </footer>
     </form>
   </div>
@@ -68,8 +68,8 @@
               field = $regForm.find('[name='+fieldName+']');
               if (!field.val()) {
                 valid = false;
-                messages.push('Поле ' + (fields[fieldName].caption ? fields[fieldName].caption : fieldName )
-                  + ' обязательно для заполнения');
+                messages.push('<%=__('Поле ')%>' + (fields[fieldName].caption ? fields[fieldName].caption : fieldName )
+                  + '<%=__(' обязательно для заполнения')%>');
               }
             }
           }
